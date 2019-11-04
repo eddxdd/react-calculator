@@ -11,37 +11,53 @@ class App extends Component {
     super(props);
 
     this.state = {
-      input: ""
+      input: "0"
     };
   }
 
-  // Concatenate to the input
-  // This function when called will update the input value
+  /* State Changers */
+
+  // To update, append it to the previous state + val
+  // This way it adds to the val on display instead of updating it
   addToInput = val => {
-    this.setState({ input: this.state.input + val });
+    this.setState({
+      input: this.state.input === "0" ? val : this.state.input + val
+    });
   };
 
-  // Once you hit equal it utilizes mathjs to evaluate the answer and update the input value
+  // Mathjs evaluates the expression
   handleEqual = () => {
     this.setState({ input: math.evaluate(this.state.input) });
+  };
+
+  backSpace = () => {
+    this.setState({ input: this.state.input.slice(0, -1) });
   };
 
   render() {
     return (
       <div className="app">
         <div className="calc-wrapper">
-          <Input input={this.state.input}></Input>
+          <Input input={this.state.input.toLocaleString()}></Input>
+          <div className="row">
+            <ClearButton handleClear={() => this.setState({ input: "0" })}>
+              C
+            </ClearButton>
+            <Button handleClick={() => this.backSpace()}>⌫</Button>
+            <Button handleClick={this.addToInput}>%</Button>
+            <Button handleClick={this.addToInput}>/</Button>
+          </div>
           <div className="row">
             <Button handleClick={this.addToInput}>7</Button>
             <Button handleClick={this.addToInput}>8</Button>
             <Button handleClick={this.addToInput}>9</Button>
-            <Button handleClick={this.addToInput}>/</Button>
+            <Button handleClick={this.addToInput}>*</Button>
           </div>
           <div className="row">
             <Button handleClick={this.addToInput}>4</Button>
             <Button handleClick={this.addToInput}>5</Button>
             <Button handleClick={this.addToInput}>6</Button>
-            <Button handleClick={this.addToInput}>*</Button>
+            <Button handleClick={this.addToInput}>-</Button>
           </div>
           <div className="row">
             <Button handleClick={this.addToInput}>1</Button>
@@ -50,15 +66,10 @@ class App extends Component {
             <Button handleClick={this.addToInput}>+</Button>
           </div>
           <div className="row">
-            <Button handleClick={this.addToInput}>.</Button>
             <Button handleClick={this.addToInput}>0</Button>
+            <Button handleClick={this.addToInput}>.</Button>
+            <Button handleClick={this.addToInput}>( )</Button>
             <Button handleClick={() => this.handleEqual()}>=</Button>
-            <Button handleClick={this.addToInput}>-</Button>
-          </div>
-          <div className="row">
-            <ClearButton handleClear={() => this.setState({ input: "" })}>
-              Clear
-            </ClearButton>
           </div>
         </div>
       </div>
