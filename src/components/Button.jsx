@@ -2,7 +2,7 @@ import React from "react";
 import "./Button.css";
 
 const isOperator = val => {
-  // If it's not NotaNumber, ., we do nothing
+  // If it's not NotaNumber, ., (), we do nothing...
   // Else add class "operator"
   return !isNaN(val) || val === "." || val === "( )";
 };
