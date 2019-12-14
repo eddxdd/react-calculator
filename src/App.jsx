@@ -11,7 +11,8 @@ class App extends Component {
     super(props);
 
     this.state = {
-      input: "0"
+      input: "0",
+      lastOperation: null
     };
   }
 
@@ -45,6 +46,21 @@ class App extends Component {
     });
   };
 
+  performOperation = operator => {
+    this.setState(currentState => {
+      // Do nothing if the last operation is the same operator
+      if (currentState.lastOperation === operator) {
+        return currentState;
+      }
+
+      // Update input and last operation
+      return {
+        input: currentState.input + operator,
+        lastOperation: operator
+      };
+    });
+  };
+
   backSpace = () => {
     this.setState({ input: String(this.state.input).slice(0, -1) });
   };
@@ -60,25 +76,25 @@ class App extends Component {
             </ClearButton>
             <Button handleClick={() => this.backSpace()}>⌫</Button>
             <Button handleClick={() => this.inputPercent()}>%</Button>
-            <Button handleClick={this.addToInput}>/</Button>
+            <Button handleClick={() => this.performOperation("/")}>/</Button>
           </div>
           <div className="row">
             <Button handleClick={this.addToInput}>7</Button>
             <Button handleClick={this.addToInput}>8</Button>
             <Button handleClick={this.addToInput}>9</Button>
-            <Button handleClick={this.addToInput}>*</Button>
+            <Button handleClick={() => this.performOperation("*")}>*</Button>
           </div>
           <div className="row">
             <Button handleClick={this.addToInput}>4</Button>
             <Button handleClick={this.addToInput}>5</Button>
             <Button handleClick={this.addToInput}>6</Button>
-            <Button handleClick={this.addToInput}>-</Button>
+            <Button handleClick={() => this.performOperation("-")}>-</Button>
           </div>
           <div className="row">
             <Button handleClick={this.addToInput}>1</Button>
             <Button handleClick={this.addToInput}>2</Button>
             <Button handleClick={this.addToInput}>3</Button>
-            <Button handleClick={this.addToInput}>+</Button>
+            <Button handleClick={() => this.performOperation("+")}>+</Button>
           </div>
           <div className="row">
             <Button handleClick={this.addToInput}>0</Button>
