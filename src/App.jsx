@@ -72,6 +72,25 @@ class App extends Component {
     });
   };
 
+  bracketsOperation = operator => {
+    this.setState(currentState => {
+      // Do nothing if the last operation is the same operator
+      if (currentState.lastOperation === operator) {
+        return {
+          input: currentState.input + ")",
+          lastOperation: null
+        };
+      }
+
+      // Update input and last operation
+      return {
+        input:
+          this.state.input === "0" ? operator : currentState.input + operator,
+        lastOperation: operator
+      };
+    });
+  };
+
   backSpace = () => {
     this.setState({ input: String(this.state.input).slice(0, -1) });
   };
@@ -110,7 +129,7 @@ class App extends Component {
           <div className="row">
             <Button handleClick={this.addToInput}>0</Button>
             <Button handleClick={() => this.inputDot()}>.</Button>
-            <Button handleClick={this.addToInput}>( )</Button>
+            <Button handleClick={() => this.bracketsOperation("(")}>( )</Button>
             <Button handleClick={() => this.handleEqual()}>=</Button>
           </div>
         </div>
