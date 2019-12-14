@@ -22,7 +22,8 @@ class App extends Component {
   // This way it adds to the val on display instead of updating it
   addToInput = val => {
     this.setState({
-      input: this.state.input === "0" ? val : this.state.input + val
+      input: this.state.input === "0" ? val : this.state.input + val,
+      lastOperation: null
     });
   };
 
