@@ -29,11 +29,21 @@ class App extends Component {
 
   // Mathjs evaluates the expression
   handleEqual = () => {
-    this.setState({ input: math.evaluate(this.state.input) });
+    this.setState(currentState => {
+      // Do nothing if the last input isNaN
+      if (isNaN(currentState.lastOperation)) {
+        return currentState;
+      }
+
+      // Otherwise, evaluate
+      return {
+        input: math.evaluate(this.state.input)
+      };
+    });
   };
 
-  // If there's a . do nothing. Otherwise add .
-  inputDot = val => {
+  // If there's a "." do nothing. Otherwise, add "."
+  inputDot = () => {
     if (this.state.input.indexOf(".") === -1) {
       this.setState({
         input: this.state.input + "."
@@ -41,7 +51,7 @@ class App extends Component {
     }
   };
 
-  inputPercent = val => {
+  inputPercent = () => {
     this.setState({
       input: this.state.input / 100
     });
@@ -49,8 +59,8 @@ class App extends Component {
 
   performOperation = operator => {
     this.setState(currentState => {
-      // Do nothing if the last operation is the same operator
-      if (currentState.lastOperation === operator) {
+      // If isNaN, do nothing
+      if (isNaN(currentState.lastOperation)) {
         return currentState;
       }
 
